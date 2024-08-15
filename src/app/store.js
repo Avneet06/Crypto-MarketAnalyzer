@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { cryptoApi } from '../Services/CryptoApi'; // Adjust the path based on your project structure
+import { cryptoApi } from '../Services/CryptoApi'; 
 import { cryptoNewsApi } from '../Services/CryptoNewsApi';
 
 export const store = configureStore({
