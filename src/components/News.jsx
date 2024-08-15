@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { Select, Typography, Row, Col, Avatar, Card } from 'antd';
 import moment from 'moment';
 
-import { useGetCryptosQuery } from '../services/cryptoApi';
-import { useGetCryptoNewsQuery } from '../services/cryptoNewsApi';
+import {useGetCryptosQuery} from '../Services/CryptoApi';
+import {useGetCryptoNewsQuery} from '../Services/CryptoNewsApi'
 import Loader from './Loader';
 
 const demoImage = 'https://rb.gy/b0cq5c';
