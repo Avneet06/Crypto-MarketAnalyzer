@@ -1,8 +1,26 @@
-# React + Vite
+# Cryptoverse
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Cryptoverse is a web application that provides users with up-to-date information on cryptocurrencies. Users can search for specific cryptocurrencies, view their statistics, access related news, and analyze trends through interactive graphs.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Search Cryptocurrency:** Allows users to search for information on a wide range of cryptocurrencies.
+- **Cryptocurrency Stats:** Displays detailed statistics including market cap, trading volume, and price.
+- **Cryptocurrency News:** Provides the latest news articles related to the selected cryptocurrency.
+- **Trends Graph:** Visual representation of the historical trends and performance of selected cryptocurrencies.
+
+## Tech Stack
+
+- **Frontend:** React, JavaScript
+- **API:** RapidAPI for fetching cryptocurrency data and news
+- **Styling:** CSS
+- ## Usage
+
+- Use the search bar to find information on specific cryptocurrencies.
+- Browse through the statistics to understand the market performance.
+- Stay updated with the latest news related to the cryptocurrency market.
+- Use the interactive graph to analyze the trends of various cryptocurrencies.
+
+## API Integration
+
+Cryptoverse uses RapidAPI to fetch real-time data and news related to cryptocurrencies.
