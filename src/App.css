@@ -102,7 +102,7 @@ a:hover {
   }
 
   .main {
-    margin-top: 90px;
+    margin-top: 8vh; /* Adjusted for fixed navbar */
     margin-left: 0px;
     margin-right: 10px;
   }
@@ -110,8 +110,9 @@ a:hover {
   .nav-container {
     height: 8vh;
     position: fixed;
+    top: 0; /* Ensure the navbar stays at the top */
     width: 100%;
-    z-index: 100;
+    z-index: 100; /* Higher z-index to keep it above other content */
     background-color: var(--bg-secondary);
   }
 
@@ -344,6 +345,8 @@ a:hover {
   justify-content: space-between;
   gap: 50px;
   color: var(--pink);
+  align-items: center; /* Ensure items are vertically centered */
+  flex-wrap: wrap; /* Wrap items on small screens */
 }
 
 .chart-title {
@@ -405,8 +408,44 @@ a:hover {
 
 .footer {
   background-color: #001529;
-  display: flex;
-  flex-direction: column;
+  color: white;
   padding: 20px;
-  align-items: center;
+  text-align: center;
+}
+
+.footer a {
+  color: white;
+}
+
+.footer a:hover {
+  color: var(--pink);
+}
+
+.chart-container {
+  background: var(--light-blue);
+  padding: 20px;
+  border-radius: 15px;
+  margin-top: 20px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Slight shadow for depth */
+}
+
+.chart-container canvas {
+  width: 100% !important; /* Ensure the chart takes full width */
+  height: auto !important; /* Maintain aspect ratio for responsiveness */
+}
+
+@media screen and (max-width: 768px) {
+  .chart-header {
+    flex-direction: column;
+    gap: 10px; /* Reduce gap on smaller screens */
+  }
+
+  .price-container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .chart-container {
+    padding: 15px; /* Adjust padding on smaller screens */
+  }
 }
