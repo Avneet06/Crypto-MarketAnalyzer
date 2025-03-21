@@ -15,7 +15,7 @@
     "@nivo/bar": "^0.88.0",
     "@nivo/core": "^0.88.0",
     "@nivo/heatmap": "^0.88.0",
-    "@react-three/fiber": "^9.1.0",
+    
     "@reduxjs/toolkit": "^2.2.7",
     "antd": "^5.24.4",
     "axios": "^1.8.4",
