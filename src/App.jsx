@@ -8,6 +8,7 @@ import CryptoDetails from './components/CryptoDetails';
 import Exchanges from './components/Exchanges';
 import Cryptocurrencies from './components/Cryptocurrencies';
 import './App.css';
+import Features from './components/Features';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
               <Route exact path='/cryptocurrencies' element={<Cryptocurrencies />} />
               <Route exact path='/crypto/:coinId' element={<CryptoDetails />} />
               <Route exact path='/news' element={<News />} />
+              <Route exact path='/features' element={<Features/>}/>
             </Routes>
           </Layout.Content>
         </Layout>

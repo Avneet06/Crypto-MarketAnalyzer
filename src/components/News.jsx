@@ -1,66 +1,88 @@
-import React, { useState } from 'react';
-import { Select, Typography, Row, Col, Avatar, Card } from 'antd';
+import React, { useState, useEffect, useRef } from 'react';
+import { Typography, Row, Col, Avatar, Card } from 'antd';
 import moment from 'moment';
 
-import {useGetCryptosQuery} from '../Services/CryptoApi';
-import {useGetCryptoNewsQuery} from '../Services/CryptoNewsApi'
 import Loader from './Loader';
 
+const { Text, Title } = Typography;
 const demoImage = 'https://rb.gy/b0cq5c';
 
-const { Text, Title } = Typography;
-const { Option } = Select;
+const News = ({ simplified, topOnly }) => {
+  const [newsList, setNewsList] = useState([]);
+  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const observer = useRef();
 
-const News = ({ simplified }) => {
-  const [newsCategory, setNewsCategory] = useState('Cryptocurrency');
-  const { data: cryptosData } = useGetCryptosQuery(100);
-  const { data: cryptoNews, error } = useGetCryptoNewsQuery({ count: simplified ? 6 : 12 });
+  useEffect(() => {
+    const fetchNews = async () => {
+      setLoading(true);
+      try {
+        const response = await fetch('https://min-api.cryptocompare.com/data/v2/news/?lang=EN');
+        const data = await response.json();
+        let articles = data.Data;
+  
+        if (topOnly) {
+          setNewsList(articles.slice(0, 5)); // Only show 10 news articles on homepage
+        } else {
+          setNewsList((prevNews) => (page === 1 ? articles : [...prevNews, ...articles]));
+        }
+      } catch (error) {
+        console.error('Error fetching crypto news:', error);
+      }
+      setLoading(false);
+    };
+  
+    fetchNews();
+  }, [page, topOnly]);
+  
 
-  if (error) return <div>Error fetching crypto news: {error.message}</div>;
-  if (!cryptoNews?.data) return <Loader />;
+  const lastNewsElementRef = (node) => {
+    if (loading) return;
+    if (observer.current) observer.current.disconnect();
+    observer.current = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        setPage((prevPage) => prevPage + 1); // Load more news when scrolling
+      }
+    });
+    if (node) observer.current.observe(node);
+  };
+
+  if (loading && newsList.length === 0) return <Loader />;
 
   return (
+   <>
+   <Title>Top News</Title>
     <Row gutter={[24, 24]}>
-      {!simplified && (
-        <Col span={24}>
-          <Select
-            showSearch
-            className="select-news"
-            placeholder="Select a Crypto"
-            optionFilterProp="children"
-            onChange={(value) => setNewsCategory(value)}
-            filterOption={(input, option) => option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
-          >
-            <Option value="Cryptocurrency">Cryptocurrency</Option>
-            {cryptosData?.data?.coins?.map((currency) => (
-              <Option key={currency.id} value={currency.name}>
-                {currency.name}
-              </Option>
-            ))}
-          </Select>
-        </Col>
-      )}
-      {cryptoNews?.data.map((news) => (
-        <Col xs={24} sm={12} lg={8} key={news.id || news.title}> {/* Fallback to another unique value if id is not available */}
+      {newsList.map((news, index) => (
+        <Col
+          xs={24}
+          sm={12}
+          lg={8}
+          key={news.id || index}
+          ref={index === newsList.length - 1 ? lastNewsElementRef : null}
+        >
+          
           <Card hoverable className="news-card">
             <a href={news.url} target="_blank" rel="noreferrer">
               <div className="news-image-container">
-                <img src={news.thumbnail || demoImage} alt="News Thumbnail" />
+                <img src={news.imageurl || demoImage} alt="News Thumbnail" />
                 <Title className="news-title" level={4}>{news.title}</Title>
               </div>
-              <p>{news.description.length > 100 ? `${news.description.substring(0, 100)}...` : news.description}</p>
+              <p>{news.body.length > 100 ? `${news.body.substring(0, 100)}...` : news.body}</p>
               <div className="provider-container">
                 <div>
-                  <Avatar src={demoImage} alt="Provider" />
-                  <Text className="provider-name">Provider Name</Text> {/* Adjust if provider info is available */}
+                  <Avatar src={news.source_info.img || demoImage} alt="Provider" />
+                  <Text className="provider-name">{news.source_info.name}</Text>
                 </div>
-                <Text>{moment(news.createdAt).startOf('ss').fromNow()}</Text>
+                <Text>{moment.unix(news.published_on).fromNow()}</Text>
               </div>
             </a>
           </Card>
         </Col>
       ))}
+      {loading && <Loader />}
     </Row>
+    </>
   );
 };
 
